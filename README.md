@@ -1,223 +1,284 @@
-# Genomic-Insights-Dashboard
-A full-stack web application for educational genomic analysis that processes 23andMe-style DNA data files and provides trait insights. Built with React.js frontend and Flask Python backend.
+# Genomic Insights Dashboard
 
+<div align="center">
 
-🌟 Features
-📁 File Upload: Drag & drop interface for 23andMe format DNA files
+**A sophisticated bioinformatics platform for personalized genetic analysis**
 
-🧬 Genetic Analysis: Processes 15+ genetic variants for traits and health markers
+[![Technology](https://img.shields.io/badge/Bioinformatics-Computational_Biology-4A90E2?style=for-the-badge)](https://github.com)
+[![React](https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org)
+[![Flask](https://img.shields.io/badge/Flask-2.3.3-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com)
+[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 
-📊 Visual Reports: Beautiful, categorized report display
+[Features](#features) • [Installation](#installation) • [Documentation](#documentation) • [Research](#genetic-markers) • [Contributing](#contributing)
 
-🔒 Privacy First: Files processed temporarily, no permanent storage
+</div>
 
-🎯 Educational Focus: Designed for learning about genomics
+---
 
-⚡ Real-time Processing: Instant analysis and results
+## Overview
 
-📱 Responsive Design: Works on desktop and mobile devices
+Genomic Insights Dashboard is a full-stack web application that transforms raw genetic data into actionable insights. Built for researchers, educators, and bioinformatics enthusiasts, this platform analyzes 23andMe-formatted genomic files to reveal patterns in athletic performance, physical traits, health predispositions, and metabolic characteristics.
 
+### Key Capabilities
 
-🛠 Technology Stack
-Frontend
-React.js - User interface
+- **Comprehensive Analysis**: Processes 15+ validated genetic markers across multiple phenotypic categories
+- **Real-time Processing**: Instant analysis and visualization of genetic variants
+- **Privacy-Centric Architecture**: Zero-persistence processing model ensures data confidentiality
+- **Research-Grade Interface**: Publication-quality visualizations with interactive exploration
+- **Cross-Platform Compatibility**: Responsive design optimized for desktop, tablet, and mobile
 
-React Dropzone - File upload handling
+---
 
-Axios - API communication
+## Features
 
-CSS3 - Styling and animations
+### Core Functionality
 
+**Intelligent File Processing**
+- Drag-and-drop interface with real-time validation
+- Support for 23andMe standard format (`.txt`, `.csv`)
+- Automatic format detection and error handling
+- File size optimization with 16MB upload limit
 
-Backend
-Flask - Python web framework
+**Advanced Genetic Analysis**
+- Multi-SNP genotype interpretation
+- Evidence-based trait association mapping
+- Risk stratification algorithms
+- Confidence scoring for genetic predictions
 
-Flask-CORS - Cross-origin resource sharing
+**Interactive Visualization**
+- Category-segmented results dashboard
+- Color-coded significance indicators
+- Detailed variant-level breakdowns
+- Exportable reports for documentation
 
-Python 3.8+ - Core processing logic
+**Enterprise-Grade Security**
+- Ephemeral data processing (no permanent storage)
+- Filename sanitization and malware protection
+- CORS-enabled secure API communication
+- Input validation and type checking
 
+---
 
-📥 Installation
+## Technology Stack
 
-Prerequisites
-For macOS:
-bash
-# Install Python 3
-brew install python
+### Frontend Architecture
+```
+React 18.2.0          Modern component-based UI framework
+Axios                 Promise-based HTTP client
+React Dropzone        File upload with drag-and-drop
+CSS3                  Custom styling with gradient design system
+```
 
-# Install Node.js
-brew install node
+### Backend Infrastructure
+```
+Flask 2.3.3           Lightweight WSGI web framework
+Flask-CORS            Cross-origin resource sharing
+Python 3.8+           Core processing engine
+RESTful API           Standard HTTP methods and status codes
+```
 
-For Windows:
-Install Python 3.8+ from python.org
+---
 
-Install Node.js from nodejs.org
+## Installation
 
-Enable WSL (Recommended) for better development experience
+### Prerequisites
 
-Clone the Repository
-bash
-git clone https://github.com/yourusername/genomic-dashboard.git
+Ensure the following are installed on your system:
+
+- **Python** 3.8 or higher → [Download](https://python.org/downloads)
+- **Node.js** 14 or higher → [Download](https://nodejs.org)
+- **pip** (included with Python)
+- **npm** (included with Node.js)
+
+### Quick Start
+
+#### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
 cd genomic-dashboard
+```
 
-🚀 Quick Start
-1. Backend Setup (Terminal 1)
-bash
-# Navigate to backend
+#### 2. Backend Configuration
+
+```bash
+# Navigate to backend directory
 cd backend
 
-# Create virtual environment (macOS/Linux)
-python3 -m venv venv
-source venv/bin/activate
+# Create isolated Python environment
+python -m venv venv
 
-# On Windows:
-# python -m venv venv
-# venv\Scripts\activate
+# Activate environment
+# Windows:
+venv\Scripts\activate
+# macOS/Linux:
+source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Generate sample data
+# Generate sample datasets
 python sample_data.py
 
-# Start backend server
+# Launch backend server
 python app.py
-2. Frontend Setup (Terminal 2)
-bash
-# Navigate to frontend (in new terminal)
+```
+
+**Backend will be available at:** `http://localhost:5001`
+
+#### 3. Frontend Configuration
+
+Open a new terminal window:
+
+```bash
+# Navigate to frontend directory
 cd frontend
 
-# Install dependencies
+# Install Node dependencies
 npm install
 
 # Start development server
 npm start
+```
 
-3. Access the Application
-Frontend: http://localhost:3000
+**Frontend will be available at:** `http://localhost:3000`
 
-Backend API: http://localhost:5000
+---
 
-Health Check: http://localhost:5000/health
+## Project Structure
 
-
-📖 Usage
-Prepare Your Data: Use 23andMe format DNA files (.txt)
-
-Upload File: Drag & drop or click to select file
-
-View Analysis: See categorized genetic insights including:
-
-Physical Traits (Eye color, Hair color, Skin tone)
-
-Fitness & Athletic Performance
-
-Metabolism & Weight Management
-
-Neurology & Stress Response
-
-Nutrition & Food Responses
-
-Sleep Patterns
-
-
-🗂 Project Structure
-text
+```
 genomic-dashboard/
+│
 ├── backend/
-│   ├── venv/                 # Virtual environment (auto-created)
-│   ├── uploads/              # Temporary file storage
-│   ├── app.py               # Main Flask application
-│   ├── genomic_processor.py # DNA analysis logic
-│   ├── security.py          # File security utilities
-│   ├── sample_data.py       # Sample data generator
-│   └── requirements.txt     # Python dependencies
+│   ├── app.py                    # Flask application server
+│   ├── genomic_processor.py      # SNP analysis engine
+│   ├── security.py               # Input validation & sanitization
+│   ├── sample_data.py            # Test dataset generator
+│   ├── requirements.txt          # Python dependencies
+│   └── uploads/                  # Temporary file storage
+│
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── FileUpload.js    # File upload component
-│   │   │   ├── ReportDisplay.js # Results display
-│   │   │   └── TraitCard.js     # Individual trait card
-│   │   ├── App.js           # Main React component
-│   │   ├── App.css          # Stylesheets
-│   │   └── index.js         # React entry point
+│   │   │   ├── FileUpload.js     # Upload interface component
+│   │   │   ├── ReportDisplay.js  # Results visualization
+│   │   │   └── TraitCard.js      # Individual trait cards
+│   │   ├── App.js                # Root application component
+│   │   ├── App.css               # Global styles
+│   │   └── index.js              # Application entry point
 │   ├── public/
-│   │   └── index.html       # HTML template
-│   └── package.json         # Node.js dependencies
-└── README.md
+│   │   └── index.html
+│   └── package.json              # Node dependencies
+│
+└── README.md                     # Documentation
+```
+
+---
 
 
+### Sample Data Format
 
-Generate sample files:
+Create test files using the 23andMe standard format:
 
-bash
-cd backend
-python sample_data.py
+```
+# rsid    chromosome    position    genotype
+rs1815739    11    66300000    CC
+rs7495174    15    28000000    GG
+rs9939609    16    53800000    TT
+```
 
-🧬 Genetic Variants Analyzed
-The application analyzes 15+ genetic variants including:
+**Included Sample Files:**
+- `test_dna.txt` - Basic validation dataset
+- `athlete_dna.txt` - Endurance athlete profile
+- `mixed_traits.txt` - Diverse genetic markers
+- `power_athlete.txt` - Strength athlete profile
 
-Physical Traits
-rs12913832 (HERC2) - Eye Color
+---
 
-rs7495174 (OCA2) - Eye Color Probability
+## Genetic Markers
 
-rs12896399 (SLC24A4) - Skin Pigmentation
+### Categories and SNPs Analyzed
 
-rs12203592 (IRF4) - Hair Color
+#### Athletic Performance & Fitness
+| SNP ID | Gene | Trait | Significance |
+|--------|------|-------|--------------|
+| rs1815739 | ACTN3 | Muscle fiber composition | High |
+| rs1049434 | MCT1 | Lactate transport capacity | Moderate |
 
-rs1805007 (MC1R) - Red Hair & Fair Skin
+#### Physical Characteristics
+| SNP ID | Gene | Trait | Significance |
+|--------|------|-------|--------------|
+| rs7495174 | OCA2 | Eye color determination | High |
+| rs12913832 | HERC2 | Eye color modifier | High |
+| rs12896399 | SLC24A4 | Skin pigmentation | Moderate |
+| rs1805007 | MC1R | Red hair & skin tone | High |
+| rs12203592 | IRF4 | Hair color variation | Moderate |
 
-Fitness & Performance
-rs1815739 (ACTN3) - Muscle Fiber Type
+#### Health & Metabolism
+| SNP ID | Gene | Trait | Significance |
+|--------|------|-------|--------------|
+| rs9939609 | FTO | Weight regulation | High |
+| rs17782313 | MC4R | Appetite control | Moderate |
+| rs4680 | COMT | Stress response | Moderate |
+| rs6265 | BDNF | Cognitive function | Moderate |
 
-rs1049434 (MCT1) - Lactate Transport
+#### Nutrition & Circadian Biology
+| SNP ID | Gene | Trait | Significance |
+|--------|------|-------|--------------|
+| rs4988235 | LCT | Lactose metabolism | High |
+| rs1761667 | CD36 | Fat taste perception | Low |
+| rs228697 | PER3 | Chronotype preference | Moderate |
 
-Health & Metabolism
-rs9939609 (FTO) - Weight Management
+---
 
-rs17782313 (MC4R) - Appetite Regulation
+### Educational Purpose Disclaimer
 
-rs4680 (COMT) - Stress Response
+This platform is designed exclusively for **educational and research purposes**. The genetic insights provided should not be interpreted as:
 
-rs6265 (BDNF) - Memory & Learning
+- Medical diagnosis or clinical advice
+- Treatment recommendations
+- Professional genetic counseling
+- Definitive health predictions
 
-Nutrition
-rs4988235 (LCT) - Lactose Tolerance
+### Recommended Use Cases
 
-rs1761667 (CD36) - Fat Taste Sensitivity
+- Bioinformatics education and training
+- Understanding genetic inheritance patterns
+- Full-stack web development learning
+- Data visualization techniques exploration
+- Research methodology demonstration
 
-Sleep
-rs228697 (PER3) - Sleep Patterns
+**For medical decisions involving genetic information, consult certified genetic counselors and healthcare professionals.**
 
+---
 
-Development Setup
-bash
-# Backend development
-cd backend
-source venv/bin/activate
-python app.py
+## Contributing
 
-# Frontend development  
-cd frontend
-npm start
-⚠️ Disclaimer
-IMPORTANT: This application is for EDUCATIONAL AND RESEARCH PURPOSES ONLY.
+We welcome contributions from the scientific and developer communities.
 
-🚫 Not Medical Advice: This tool does not provide medical advice
+## Developer
 
-🚫 Not for Diagnosis: Should not be used for disease diagnosis or treatment
+**Shalini Singh**  
+*Bioinformatics Engineer & Full-Stack Developer*
 
-🚫 Not Clinical Grade: Analysis is simplified for educational purposes
+- 🔗 LinkedIn: [linkedin.com/in/shalinisingh](linkedin.com/in/shalinisingh)
+- 💻 GitHub: [github.com/shalinisingh](https://github.com/singhshalini7545-dot)
+- 🌐 Portfolio: [shalinisingh.dev](https://singhshalini7545-dot.github.io/portfolio/)
+- 📧 Email: singhshalini6375@gmail.com
 
-✅ For Learning: Intended to help understand basic genetic concepts
+---
 
-✅ Research Tool: Useful for bioinformatics and computational biology education
+## Acknowledgments
 
-Always consult with qualified healthcare professionals for medical advice.
+This project synthesizes research from peer-reviewed genetic studies and open-source bioinformatics resources. Genetic variant interpretations are based on published scientific literature and population genetics databases.
 
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+---
 
+<div align="center">
 
+**Built with precision for the advancement of genomic education**
 
+⭐ Star this repository if you find it valuable for your research or learning
+
+</div>
