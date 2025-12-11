@@ -1,70 +1,134 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import os
-from genomic_processor import process_genomic_file
-from security import sanitize_filename, cleanup_old_files
-import logging
+import React, { useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+import axios from 'axios';
 
-# Setup logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-app = Flask(__name__)
-CORS(app)
-
-# Configuration
-app.config['UPLOAD_FOLDER'] = 'uploads/'
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
-app.config['CLEANUP_HOURS'] = 24
-
-# Create upload directory if it doesn't exist
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-
-# Allowed file extensions
-ALLOWED_EXTENSIONS = {'txt', 'csv'}
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-@app.route('/health', methods=['GET'])
-def health_check():
-    return jsonify({'status': 'healthy', 'message': 'Genomic API is running'})
-
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    cleanup_old_files(app.config['UPLOAD_FOLDER'], app.config['CLEANUP_HOURS'])
+const FileUpload = ({ setReport, loading, setLoading }) => {
+  const onDrop = useCallback(async (acceptedFiles) => {
+    if (acceptedFiles.length === 0) return;
     
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file part'}), 400
+    const file = acceptedFiles[0];
+    const formData = new FormData();
+    formData.append('file', file);
     
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
+    setLoading(true);
     
-    if file and allowed_file(file.filename):
-        filename = sanitize_filename(file.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        
-        try:
-            file.save(filepath)
-            logger.info(f"File uploaded successfully: {filename}")
-            
-            results = process_genomic_file(filepath)
-            
-            os.remove(filepath)
-            
-            return jsonify(results)
-            
-        except Exception as e:
-            logger.error(f"Error processing file: {str(e)}")
-            if os.path.exists(filepath):
-                os.remove(filepath)
-            return jsonify({'error': f'Processing failed: {str(e)}'}), 500
-    
-    return jsonify({'error': 'Invalid file type. Please upload .txt or .csv files'}), 400
+    try {
+      const response = await axios.post('http://localhost:8080/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      
+      setReport(response.data);
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert(error.response?.data?.error || 'Error processing file. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  }, [setReport, setLoading]);
 
-if __name__ == '__main__':
-    print("🚀 Starting Genomic Insights Dashboard Backend...")
-    print("📍 Server running on http://localhost:5000")
-    print("❤️  Health check: http://localhost:5000/health")
-    app.run(debug=True, port=5000)
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      'text/plain': ['.txt'],
+      'text/csv': ['.csv']
+    },
+    multiple: false
+  });
+
+  const loadSampleData = async () => {
+    setLoading(true);
+    try {
+      // For now, we'll simulate sample data since we don't have a sample endpoint
+      const sampleReport = {
+        traits: [
+          {
+            gene: "ACTN3",
+            trait: "Athletic Performance",
+            your_genotype: "CC",
+            interpretation: "Enhanced endurance performance",
+            category: "Fitness",
+            significance: "Moderate"
+          },
+          {
+            gene: "OCA2",
+            trait: "Eye Color Probability", 
+            your_genotype: "GG",
+            interpretation: "Higher probability of blue/green eyes",
+            category: "Physical Traits",
+            significance: "High"
+          }
+        ],
+        health_risks: [
+          {
+            gene: "FTO",
+            trait: "Weight Management",
+            your_genotype: "TT", 
+            interpretation: "Lower risk of obesity",
+            category: "Metabolism",
+            significance: "Moderate"
+          }
+        ],
+        summary: {
+          total_snps_analyzed: 1500000,
+          traits_found: 2,
+          health_risks_found: 1,
+          matched_snps: 3
+        }
+      };
+      
+      // Simulate API delay
+      setTimeout(() => {
+        setReport(sampleReport);
+        setLoading(false);
+      }, 1500);
+      
+    } catch (error) {
+      console.error('Sample data error:', error);
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="upload-container">
+      <div 
+        {...getRootProps()} 
+        className={`dropzone ${isDragActive ? 'active' : ''}`}
+      >
+        <input {...getInputProps()} />
+        {loading ? (
+          <div className="loading">
+            <div className="spinner"></div>
+            <p>Analyzing your genomic data...</p>
+            <p>This may take a few seconds</p>
+          </div>
+        ) : (
+          <>
+            <div className="upload-icon">📤</div>
+            <p>
+              {isDragActive 
+                ? "Drop your 23andMe file here..." 
+                : "Drag & drop your 23andMe file here, or click to select"
+              }
+            </p>
+            <small>Supported formats: .txt, .csv (23andMe format)</small>
+          </>
+        )}
+      </div>
+      
+      <div className="sample-section">
+        <h3>Don't have a 23andMe file?</h3>
+        <button 
+          className="sample-btn"
+          onClick={loadSampleData}
+          disabled={loading}
+        >
+          Try with Sample Data
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default FileUpload;
